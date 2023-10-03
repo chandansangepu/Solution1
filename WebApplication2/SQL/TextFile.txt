@@ -1,0 +1,30 @@
+﻿
+
+//all the customers whose name begins with "Joe"
+
+SELECT * FROM Customers WHERE NAME LIKE 'Joe%'
+
+
+//all the product names ordered by customer "Joe" after '11/1/2016'
+
+SELECT * FROM Customer C
+INNER JOIN Order O ON C.CustomerId = O.CustomerId
+INNER JOIN OrderProducts OP On OP.OrdeId = O.OrderId 
+INNER JOIN Products P ON P.ProductId = OP.ProdctId
+WHERE C.NAME LIKE 'Joe%' AND CreatedAt = CAST('11/1/2016' as datetime)
+
+//the total amount spend by customer "Joe"
+
+SELECT SUM(Price),Name FROM (
+SELECT * FROM Customer C
+INNER JOIN Order O ON C.CustomerId = O.CustomerId
+INNER JOIN OrderProducts OP On OP.OrdeId = O.OrderId 
+INNER JOIN Products P ON P.ProductId = OP.ProdctId
+WHERE C.NAME LIKE 'Joe%' ) G Group by G.Name 
+
+//all the customer names and count of their orders for orders containing more than one product
+
+SELECT Count(*),Name FROM (
+SELECT * FROM Customer C
+INNER JOIN Order O ON C.CustomerId = O.CustomerId
+) G Group by G.Name 
